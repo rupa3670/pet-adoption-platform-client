@@ -6,6 +6,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation'; 
 import { toast } from 'react-toastify';
 import Link from 'next/link';
+import { FcGoogle } from 'react-icons/fc';
 
 const Login = () => {
     const router = useRouter(); 
@@ -34,6 +35,16 @@ const Login = () => {
         }
     };
 
+    const handleGoogleLogIn = async()=>{
+        const{error} = await authClient.signIn.social({
+            provider:"google",
+            callbackURL:"/",
+        });
+        if(error){
+            toast.error(error.message);
+        }
+    }
+
     return (
         <div className='max-w-7xl mx-auto py-12 flex flex-col items-center justify-center min-h-[80vh]'>
             <div className='text-center mb-6'>
@@ -42,12 +53,13 @@ const Login = () => {
             </div>
             
             <Card className='border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm rounded-2xl bg-white dark:bg-zinc-900'>
-                 <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
+                 <Form className="flex w-96 flex-col gap-5" onSubmit={onSubmit}>
                     
                     <TextField
                         isRequired
                         name="email"
                         type="email"
+                        className="flex flex-col gap-1.5"
                         validate={(value) => {
                           if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
                             return "Please enter a valid email address";
@@ -55,30 +67,45 @@ const Login = () => {
                           return null;
                         }}
                     >
-                        <Label className="text-zinc-600 dark:text-zinc-400">Email</Label>
-                        <Input placeholder="Enter your email" className="font-medium" />
-                        <FieldError className="text-rose-500 text-xs mt-1" />
+                        <Label className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Email</Label>
+                        <Input 
+                            placeholder="Enter your email" 
+                            className="w-full px-3 py-2 text-sm font-medium bg-zinc-50 dark:bg-zinc-800/50 text-zinc-800 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-500" 
+                        />
+                        <FieldError className="text-rose-500 text-xs mt-0.5 font-medium" />
                     </TextField>
 
                     <TextField
                         isRequired
                         name="password"
                         type="password"
+                        className="flex flex-col gap-1.5"
                     >
-                        <Label className="text-zinc-600 dark:text-zinc-400">Password</Label>
-                        <Input placeholder="Enter your password" type="password" className="font-medium" />
-                        <FieldError className="text-rose-500 text-xs mt-1" />
+                        <Label className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Password</Label>
+                        <Input 
+                            placeholder="Enter your password" 
+                            type="password" 
+                            className="w-full px-3 py-2 text-sm font-medium bg-zinc-50 dark:bg-zinc-800/50 text-zinc-800 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-500" 
+                        />
+                        <FieldError className="text-rose-500 text-xs mt-0.5 font-medium" />
                     </TextField>
 
-                    <div className="flex justify-center gap-2 pt-2">
+                    <div className="flex justify-center gap-2 pt-1">
                         <Button type="submit" className='w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold rounded-xl py-2.5 shadow-sm transition-all active:scale-95'>
                           LogIn
                         </Button>
                     </div>
+<div className='flex items-center gap-2'>
+<hr  className='flex-grow h-px border-zinc-200 dark:bg-zinc-700'/>
+<span className='text-xs text-zinc-400 '>OR</span>
+<hr  className='flex-grow h-px border-zinc-200 dark:bg-zinc-700'/>
+</div>
+<Button onPress={handleGoogleLogIn} className={'w-full flex items-center justify-center gap-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-100 font-semibold rounded-xl py-2.5 shadow-sm transition-all active:scale-95 hover:bg-zinc-50 dark:hover:bg-zinc-700'}><FcGoogle/> Login with Google</Button>
 
-                    <p className='text-center text-sm text-zinc-500 mt-2'>
+
+                    <p className='text-center text-sm text-zinc-500 mt-1'>
                         Do not have an account?{' '}
-                        <Link href='/signup' className='text-rose-500 hover:underline font-medium'>
+                        <Link href='/signUp' className='text-rose-500 hover:underline font-medium'>
                             Sign Up
                         </Link>
                     </p>

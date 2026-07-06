@@ -7,10 +7,16 @@ const db = client.db("petAdoption");
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
-    // Optional: if you don't provide a client, database transactions won't be enabled.
-    client
+    client: client
   }),
   emailAndPassword: { 
     enabled: true, 
   }, 
+  baseURL: process.env.BETTER_AUTH_URL, 
+  socialProviders: {
+    google: { 
+      clientId: process.env.GOOGLE_CLIENT_ID, 
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET  
+    }, 
+  },
 });
