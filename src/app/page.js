@@ -1,9 +1,12 @@
+import BannerSection from '@/components/Banner';
 import React from 'react';
+import FeaturedPets from '../components/FeaturedPets';
 
 const HomePage = () => {
   return (
-    <div>
-      Home Page
+    <div className='min-h-screen'>
+      <BannerSection/>
+      <FeaturedPets/>
     </div>
   );
 };
