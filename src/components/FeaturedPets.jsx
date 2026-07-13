@@ -18,7 +18,7 @@ const FeaturedPets = () => {
     return (
       <div className='py-10 bg-base-100'>
         <h2 className='text-5xl font-extrabold text-center text-[#2d2d2d] mb-2'>Featured Pets</h2>
-                <p className='text-center text-gray-500 mb-12 text-base text-lg'>Meet our cute friends looking for a home</p>
+                <p className='text-center text-gray-500 mb-12  text-lg'>Meet our cute friends looking for a home</p>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 max-w-7xl mx-auto'>
             {pets.map((pet)=>(
                 <div key={pet._id} className='rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-[#EFEAE3]'> 

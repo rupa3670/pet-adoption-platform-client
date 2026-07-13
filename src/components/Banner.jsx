@@ -4,7 +4,7 @@ import React from 'react';
 
 const BannerSection = () => {
     return (
-        <section className='relative bg-white dark:bg-gray-900'>
+        <section className='relative bg-[#fcf9f4] dark:bg-gray-900'>
             <div className='container mx-auto px-6 py-24 lg:py-32 grid lg:grid-cols-2 gap-12'>
                 <div className='text-center lg:text-left'> 
                     <h1 className='text-4xl md:text-4xl lg:text-6xl font-extrabold text-gray-900 dark:text-white mb-6'>Find Your Perfect <span className='text-rose-400'> Furry Friend </span>Today</h1>
