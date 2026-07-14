@@ -3,6 +3,7 @@ import React from 'react';
 import FeaturedPets from '../components/FeaturedPets';
 import WhyAdopt from '@/components/WhyAdopt';
 import SuccessStoriesPage from '@/components/SuccessStories';
+import PetCare from '@/components/PetCare';
 
 const HomePage = () => {
   return (
@@ -11,6 +12,7 @@ const HomePage = () => {
       <FeaturedPets/>
       <WhyAdopt/>
       <SuccessStoriesPage/>
+      <PetCare/>
     </div>
   );
 };

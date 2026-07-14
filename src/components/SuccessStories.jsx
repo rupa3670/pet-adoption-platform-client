@@ -10,7 +10,7 @@ const SuccessStories = () => {
 <p className='text-center text-gray-500 mb-10 text-lg'>Real updates from happy pet families.</p>
             </div>
     <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-<Card className='border-none bg-[#f3eee7] p-3 rounded-xl flex flex-row gap-4 items-center shadow-sm h-34 hover:shadow-md transition-shadow'>
+<Card className='border-none bg-[#f3eee7] p-3 rounded-xl flex flex-row gap-4 items-center shadow-sm h-28 hover:shadow-md transition-shadow'>
     <div className='relative w-20 h-20 shrink-0 rounded-lg overflow-hidden'>
         <Image
         src="/assets/cat.jpg"
