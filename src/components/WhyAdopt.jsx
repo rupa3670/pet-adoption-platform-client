@@ -5,7 +5,7 @@ import { BiLeaf } from 'react-icons/bi';
 
 const WhyAdopt = () => {
     return (
-        <div className='bg-[#fbf9f6] min-h-screen py-16 px-6'>
+        <section className='bg-[#fbf9f6] py-16 px-6'>
             <div className='max-w-4xl mx-auto text-center'>
                 <h1 className='text-4xl font-extrabold text-[#2d2d2d] mb-4'>Why Adopt Pets?</h1>
                 <p className='text-gray-500 mb-16 max-w-2xl mx-auto text-base leading-relaxed'>Adopting a pet is not just about bringing a furry friend home; it is a compassionate choice that saves lives, supports ethical communities, and brings unparalleled joy.</p>
@@ -38,7 +38,7 @@ const WhyAdopt = () => {
                         </p>
                 </div>
             </Card>
-            <Card className='p-8 border-none bg-white shadow-sm rounded-2xl text-left flex flex-col items-start gap-4 hover:shadow-md transition-shadow'>
+            {/* <Card className='p-8 border-none bg-white shadow-sm rounded-2xl text-left flex flex-col items-start gap-4 hover:shadow-md transition-shadow'>
                         <div className='p-3  rounded-xl text-[#e0533c] hover:bg-rose-50'>
                      <BiLeaf width={24} height={24} />      
                        
@@ -47,9 +47,9 @@ const WhyAdopt = () => {
                     Adoption promotes responsible pet ownership. Using eco-friendly products and supporting green shelter initiatives helps reduce your pet is overall environmental footprint.
                 </p>   
                  </div>       
-                    </Card>
+                    </Card> */}
 
-                    <Card className='p-8 border-none bg-white shadow-sm rounded-2xl text-left flex flex-col items-start gap-4 hover:shadow-md transition-shadow'>
+                    {/* <Card className='p-8 border-none bg-white shadow-sm rounded-2xl text-left flex flex-col items-start gap-4 hover:shadow-md transition-shadow'>
                         <div className='p-3  h-0.5rounded-xl text-[#e0533c] hover:bg-rose-50'>
                      <Persons width={24} height={24} />       
                        
@@ -57,11 +57,11 @@ const WhyAdopt = () => {
                     Become part of a larger network of passionate rescuers. Share advice, find local pet-friendly spots, and connect with other pet owners in your neighborhood.
                 </p> 
                  </div> 
-                    </Card>
+                    </Card> */}
             </div>       
             </div>
             
-        </div>
+        </section>
     );
 };
 
