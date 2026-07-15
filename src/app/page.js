@@ -6,6 +6,8 @@ import SuccessStories from '@/components/SuccessStories';
 import PetCare from '@/components/PetCare';
 import HelpsAnimals from '@/components/HelpsAnimals';
 
+import FamilyAdoption from '@/components/FamilyAdoption';
+
 const HomePage = () => {
   return (
     <div className='min-h-screen'>
@@ -15,6 +17,7 @@ const HomePage = () => {
       <SuccessStories/>
       <PetCare/>
       <HelpsAnimals/>
+      <FamilyAdoption/>
     </div>
   );
 };

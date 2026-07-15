@@ -24,7 +24,7 @@ const PetCare = () => {
     <div className='space-y-1.5'>
     <div className='flex items-center gap-2 font-bold text-lg'>
      <Star width={14} height={14}/>
-     Balanced Diet
+     Daily Exercise
     </div>
     <p className='text-gray-500 leading-relaxed line-clamp-3'>Ensure Fresh drinking water is always available. Spend at least 15-30 minutes daily on physical playtime</p>
 
@@ -35,7 +35,7 @@ const PetCare = () => {
     <div className='space-y-1.5'>
     <div className='flex items-center gap-2 font-bold text-lg'>
      <ShieldCheck width={14} height={14}/>
-     Balanced Diet
+     Routine Healthcare
     </div>
     <p className='text-gray-500 leading-relaxed line-clamp-3'>De-worming every 3 months and annual core vaccinations are mandatory to prevent deadly infections. </p>
 
