@@ -2,8 +2,9 @@ import BannerSection from '@/components/Banner';
 import React from 'react';
 import FeaturedPets from '../components/FeaturedPets';
 import WhyAdopt from '@/components/WhyAdopt';
-import SuccessStoriesPage from '@/components/SuccessStories';
+import SuccessStories from '@/components/SuccessStories';
 import PetCare from '@/components/PetCare';
+import HelpsAnimals from '@/components/HelpsAnimals';
 
 const HomePage = () => {
   return (
@@ -11,8 +12,9 @@ const HomePage = () => {
       <BannerSection/>
       <FeaturedPets/>
       <WhyAdopt/>
-      <SuccessStoriesPage/>
+      <SuccessStories/>
       <PetCare/>
+      <HelpsAnimals/>
     </div>
   );
 };
