@@ -1,9 +1,10 @@
 'use client'
-import { Gear } from '@gravity-ui/icons';
-import { Button, Calendar } from '@heroui/react';
+import { CalendarXmark, Gear } from '@gravity-ui/icons';
+import { Button } from '@heroui/react';
+
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { FiSettings, FiCalendar } from 'react-icons/fi';
+
 
 const FeaturedPets = () => {
     const [pets, setPets] = useState([]);
@@ -35,7 +36,7 @@ const FeaturedPets = () => {
                     <h3 className='text-lg font-bold text-rose-600 mb-2'>{pet.petName}</h3>
                     <div className='flex items-center justify-between text-sm text-gray-600'>
     <span className='flex items-center gap-1'> <Gear width={14} height={14} className='text-gray-400'/> {pet.breed}</span>
-    <span className='flex items-center gap-1'><Calendar width={14} height={14} className='text-gray-400' /> Birth:{pet.age}</span>
+    <span className='flex items-center gap-1'><CalendarXmark width={14} height={14} className='text-gray-400' /> Birth:{pet.age}</span>
                     </div>
      <Button className='w-full py-2 rounded-lg bg-rose-50 text-rose-600 font-medium hover:bg-rose-500 hover:text-white transition-colors duration-300'>
                                 View Details
