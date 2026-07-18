@@ -3,11 +3,14 @@ import { CalendarXmark, Gear } from '@gravity-ui/icons';
 import { Button } from '@heroui/react';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 
 const FeaturedPets = () => {
     const [pets, setPets] = useState([]);
+
+    const router =  useRouter();
 
     useEffect(() => {
         fetch("http://localhost:8000/pets")
@@ -38,7 +41,7 @@ const FeaturedPets = () => {
     <span className='flex items-center gap-1'> <Gear width={14} height={14} className='text-gray-400'/> {pet.breed}</span>
     <span className='flex items-center gap-1'><CalendarXmark width={14} height={14} className='text-gray-400' /> Birth:{pet.age}</span>
                     </div>
-     <Button className='w-full py-2 rounded-lg bg-rose-50 text-rose-600 font-medium hover:bg-rose-500 hover:text-white transition-colors duration-300'>
+     <Button onClick={()=>router.push(`/all-pets/${pet._id}`)} className='w-full py-2 rounded-lg bg-rose-50 text-rose-600 font-medium hover:bg-rose-500 hover:text-white transition-colors duration-300'>
                                 View Details
                             </Button>                
                 </div>

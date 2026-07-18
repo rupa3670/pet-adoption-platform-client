@@ -57,7 +57,7 @@ const AllPetsPage = () => {
             }, 1000);
         }
         else {
-            toast.success(`Adoption request submitted for ${petName}!`);
+            toast.success(`Adoption request submitted for ${pet.petName}!`);
         }
     };
     const categories = ["All", "Dog", "Cat", "Rabbit", "Bird"]
@@ -69,7 +69,7 @@ const AllPetsPage = () => {
             <p className='text-center text-gray-500 mb-12  text-lg'>Meet our cute friends looking for a home</p>
     <div className='max-w-md mx-auto px-6 mb-8'>
         <div className='relative flex items-center group'>
-            <div className='absolute left-4 pointer-events-none text-gray-400 group-focus-within:text-rose-300 transition-colors durations-300 flex items-center justify-center'>
+            <div className='absolute left-4 pointer-events-none text-gray-400 group-focus-within:text-rose-300 transition-colors duration-300 flex items-center justify-center'>
 <Magnifier width={20} height={20} className='stroke-[2.5]'/>
             </div>
             <input type="text"
@@ -122,11 +122,11 @@ aria-label="Clear search"
                                 <span className='flex items-center gap-1'> <Gear width={14} height={14} className='text-gray-400' /> {pet.breed}</span>
                                 <span className='flex items-center gap-1'><CalendarXmark width={14} height={14} className='text-gray-400' /> Birth:{pet.age}</span>
                             </div>
-                            <div className='grid grid-cols-2 gap-3 mt-2'>
- <Button onClick={()=>router.push(`/all-pets/${pet._id}`)} className='w-full py-2 rounded-lg bg-rose-50 text-rose-600 font-medium hover:bg-rose-500 hover:text-white transition-colors duration-300 mt-1'>
+                            <div className='grid grid-cols-2 gap-3 mt-2 items-center'>
+ <Button onPress={()=>router.push(`/all-pets/${pet._id}`)} className='w-full py-2 rounded-lg bg-rose-50 text-rose-600 font-medium hover:bg-rose-500 hover:text-white transition-colors duration-300 mt-1'>
                                     View Details
                                 </Button>
-<Button onClick={()=>handleAdoptNow(pet)} className='w-full py-2 rounded-lg bg-rose-50 text-rose-600 font-medium hover:bg-rose-500 hover:text-white transition-colors duration-300'>
+<Button onPress={()=>handleAdoptNow(pet)} className='w-full py-2 rounded-lg bg-rose-50 text-rose-600 font-medium hover:bg-rose-500 hover:text-white transition-colors duration-300'>
                                 Adopt Now
                                 </Button>
                             </div>

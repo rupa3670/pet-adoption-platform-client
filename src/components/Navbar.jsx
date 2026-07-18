@@ -4,12 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Bars, CaretDown, Xmark } from '@gravity-ui/icons';
 import { Button } from '@heroui/react';
 
 const Navbar = () => {
     const router = useRouter();
+    const pathName = usePathname();
     const { data: session, isPending } = authClient.useSession();
     const [isOpen, setIsOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -43,6 +44,8 @@ const Navbar = () => {
         });
     };
 
+    const isActive = (path)=> pathname === path;
+
     return (
         <nav className='relative bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 z-50'>
             <div className='flex justify-between items-center p-4 px-6 md:px-12'>
@@ -62,12 +65,12 @@ const Navbar = () => {
                 </div>
 
                 <ul className='hidden md:flex items-center gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-300'>
-                    <li><Link href={'/'} className='hover:text-rose-500 transition-colors'>Home</Link></li>
-                    <li><Link href={'/all-pets'} className='hover:text-rose-500 transition-colors'>All Pets</Link></li>
+<li><Link href={'/'} className='hover:text-rose-500 transition-colors'>Home</Link></li>
+ <li><Link href={'/all-pets'} className='hover:text-rose-500 transition-colors'>All Pets</Link></li>
                     
-                    {session && (
+ {session && (
                         <>
-                            <li><Link href={'/my-requests'} className='hover:text-rose-500 transition-colors'>My Requests</Link></li>
+    <li><Link href={'/my-requests'} className='hover:text-rose-500 transition-colors'>My Requests</Link></li>
                             <li><Link href={'/add-pet'} className='hover:text-rose-500 transition-colors'>Add Pet</Link></li>
                         </>
                     )}
