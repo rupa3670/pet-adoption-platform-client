@@ -1,6 +1,6 @@
 import BannerSection from '@/components/Banner';
 import React from 'react';
-import FeaturedPets from '../components/FeaturedPets';
+import FeaturedPets from '../../components/FeaturedPets';
 import WhyAdopt from '@/components/WhyAdopt';
 import SuccessStories from '@/components/SuccessStories';
 import PetCare from '@/components/PetCare';

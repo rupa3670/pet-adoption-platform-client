@@ -7,6 +7,7 @@ import { authClient } from '@/lib/auth-client';
 import { usePathname, useRouter } from 'next/navigation';
 import { Bars, CaretDown, Xmark } from '@gravity-ui/icons';
 import { Button } from '@heroui/react';
+import NavLink from '@/components/NavLink';
 
 const Navbar = () => {
     const router = useRouter();
@@ -44,10 +45,10 @@ const Navbar = () => {
         });
     };
 
-    const isActive = (path)=> pathname === path;
+    const isActive = (path)=> pathName === path;
 
     return (
-        <nav className='relative bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 z-50'>
+        <nav className=' fixed top-0 left-0 w-full bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 z-50'>
             <div className='flex justify-between items-center p-4 px-6 md:px-12'>
                 
                 <div className='flex items-center gap-4'>
@@ -65,13 +66,13 @@ const Navbar = () => {
                 </div>
 
                 <ul className='hidden md:flex items-center gap-6 text-sm font-medium text-zinc-600 dark:text-zinc-300'>
-<li><Link href={'/'} className='hover:text-rose-500 transition-colors'>Home</Link></li>
- <li><Link href={'/all-pets'} className='hover:text-rose-500 transition-colors'>All Pets</Link></li>
+<li><NavLink href={'/'} className='hover:text-rose-500 transition-colors'>Home</NavLink></li>
+ <li><NavLink href={'/all-pets'} className='hover:text-rose-500 transition-colors'>All Pets</NavLink></li>
                     
  {session && (
                         <>
-    <li><Link href={'/my-requests'} className='hover:text-rose-500 transition-colors'>My Requests</Link></li>
-                            <li><Link href={'/add-pet'} className='hover:text-rose-500 transition-colors'>Add Pet</Link></li>
+    <li><NavLink href={'/my-requests'} className='hover:text-rose-500 transition-colors'>My Requests</NavLink></li>
+                            <li><NavLink href={'/add-pet'} className='hover:text-rose-500 transition-colors'>Add Pet</NavLink></li>
                         </>
                     )}
                 </ul>
@@ -90,7 +91,7 @@ const Navbar = () => {
                             </button>
 
                             {isOpen && (
-                                <div className="absolute right-0 mt-2 w-44 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl shadow-xl overflow-hidden z-50 py-1">
+                                <div className="absolute right-0 mt-2 w-44 bg-slate-50 dark:bg-zinc-900 border border-rose-100 dark:border-zinc-800 rounded-xl shadow-xl overflow-hidden z-50 py-1">
                                     <Link 
                                         href="/dashboard" 
                                         onClick={() => setIsOpen(false)} 
@@ -122,27 +123,27 @@ const Navbar = () => {
                 >
                     <ul className="flex flex-col gap-4 text-sm font-semibold text-zinc-600 dark:text-zinc-300">
                         <li>
-                            <Link href={'/'} onClick={() => setIsMobileMenuOpen(false)} className='block hover:text-rose-500 py-1'>
+                            <NavLink href={'/'} onClick={() => setIsMobileMenuOpen(false)} className='block hover:text-rose-500 py-1'>
                                 Home
-                            </Link>
+                            </NavLink>
                         </li>
                         <li>
-                            <Link href={'/all-pets'} onClick={() => setIsMobileMenuOpen(false)} className='block hover:text-rose-500 py-1'>
+                            <NavLink href={'/all-pets'} onClick={() => setIsMobileMenuOpen(false)} className='block hover:text-rose-500 py-1'>
                                 All Pets
-                            </Link>
+                            </NavLink>
                         </li>
                         
                         {session && (
                             <>
                                 <li>
-                                    <Link href={'/my-requests'} onClick={() => setIsMobileMenuOpen(false)} className='block hover:text-rose-500 py-1'>
+                                    <NavLink href={'/my-requests'} onClick={() => setIsMobileMenuOpen(false)} className='block hover:text-rose-500 py-1'>
                                         My Requests
-                                    </Link>
+                                    </NavLink>
                                 </li>
                                 <li>
-                                    <Link href={'/add-pet'} onClick={() => setIsMobileMenuOpen(false)} className='block hover:text-rose-500 py-1'>
+                                    <NavLink href={'/add-pet'} onClick={() => setIsMobileMenuOpen(false)} className='block hover:text-rose-500 py-1'>
                                         Add Pet
-                                    </Link>
+                                    </NavLink>
                                 </li>
                             </>
                         )}
