@@ -40,6 +40,8 @@ const Login = () => {
             provider:"google",
             callbackURL:"/",
         });
+        
+   const { data:tokenData } = await authClient.token()
         if(error){
             toast.error(error.message);
         }
@@ -53,7 +55,7 @@ const Login = () => {
             </div>
             
             <Card className='border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm rounded-2xl bg-white dark:bg-zinc-900'>
-                 <Form className="flex w-96 flex-col gap-5" onSubmit={onSubmit}>
+                 <Form className="flex w-full max-w-sm flex-col gap-5" onSubmit={onSubmit}>
                     
                     <TextField
                         isRequired

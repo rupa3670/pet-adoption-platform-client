@@ -25,14 +25,14 @@ const FeaturedPets = () => {
                 <p className='text-center text-gray-500 mb-12  text-lg'>Meet our cute friends looking for a home</p>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 max-w-7xl mx-auto'>
             {pets.map((pet)=>(
-                <div key={pet._id} className='rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-[#EFEAE3]'> 
-                <div className='relative w-full h-64'>
+                <div key={pet._id} className='group rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-[#EFEAE3]'> 
+                <div className='relative w-full h-64 overflow-hidden'>
                     <Image
                 src={pet.imageUrl}
                 alt={pet.petName}
                 fill
                 sizes="(max-width:768px) 100vw, (max-width:1200px)50vw, 33vw"
-                className='object-contain object-bottom p-4'
+                className='object-contain object-bottom p-4 transition-transform duration-300 group-hover:scale-110'
                 />
                 </div>
                 <div className='bg-white rounded-t-2xl px-5 py-4 -mt-4 relative'>

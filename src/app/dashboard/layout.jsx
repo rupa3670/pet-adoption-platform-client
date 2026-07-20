@@ -16,7 +16,7 @@ const navItems = [
          { name:'My Requests', href:'/dashboard/my-requests',icon:ListCheck
         },
     ]
-const DashboardLayout = ({session}) => {
+const DashboardLayout = ({session,children}) => {
     const pathname = usePathname();
     const router = useRouter();
     const handleSignOut = async ()=>{
@@ -27,6 +27,7 @@ const DashboardLayout = ({session}) => {
         });
     };
     return (
+        <div className='flex min-h-screen bg-white'>
         <aside className='w-64 shrink-0 hidden md:flex  flex-col bg-[#fbf9f6] border-r border-gray-100 min-h-screen py-8 px-5 '>
             <div className='flex items-center gap-3 px-2 mb-8'>
                 <div className='relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-rose-100 shrink-0'>
@@ -82,6 +83,10 @@ const DashboardLayout = ({session}) => {
             </div>
 
         </aside>
+        <main className="flex-1 p-6 md:p-10 overflow-y-auto">
+                {children}
+            </main>
+        </div>
     );
 };
 
