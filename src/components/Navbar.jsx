@@ -49,7 +49,7 @@ const Navbar = () => {
 
     return (
         <nav className=' fixed top-0 left-0 w-full bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 z-50'>
-            <div className='flex justify-between items-center p-4 px-6 md:px-12'>
+            <div className='flex justify-between items-center p-4 px-6 md:px-12 '>
                 
                 <div className='flex items-center gap-4'>
                     <Button 
@@ -69,12 +69,12 @@ const Navbar = () => {
 <li><NavLink href={'/'} className='hover:text-rose-500 transition-colors'>Home</NavLink></li>
  <li><NavLink href={'/all-pets'} className='hover:text-rose-500 transition-colors'>All Pets</NavLink></li>
                     
- {session && (
+ {/* {session && (
                         <>
     <li><NavLink href={'/my-requests'} className='hover:text-rose-500 transition-colors'>My Requests</NavLink></li>
                             <li><NavLink href={'/add-pet'} className='hover:text-rose-500 transition-colors'>Add Pet</NavLink></li>
                         </>
-                    )}
+                    )} */}
                 </ul>
 
                 <div className='relative' ref={dropdownRef}>
@@ -133,7 +133,7 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                         
-                        {session && (
+                        {/* {session && (
                             <>
                                 <li>
                                     <NavLink href={'/my-requests'} onClick={() => setIsMobileMenuOpen(false)} className='block hover:text-rose-500 py-1'>
@@ -146,7 +146,7 @@ const Navbar = () => {
                                     </NavLink>
                                 </li>
                             </>
-                        )}
+                        )} */}
                     </ul>
                 </div>
             )}

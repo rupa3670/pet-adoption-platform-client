@@ -137,7 +137,7 @@ const AllPetsPage = () => {
                                     <span className='flex items-center gap-1'><CalendarXmark width={14} height={14} className='text-gray-400' /> Birth:{pet.age}</span>
                                 </div>
                                 <div className='grid grid-cols-2 gap-3 mt-4 items-center'>
-                                    <Button onPress={() => router.push(`/pets/${pet._id}`)} className='w-full py-2 rounded-lg bg-rose-50 text-rose-600 font-medium hover:bg-rose-500 hover:text-white transition-colors duration-300'>
+                                    <Button onPress={() => router.push(`/pet/${pet._id}`)} className='w-full py-2 rounded-lg bg-rose-50 text-rose-600 font-medium hover:bg-rose-500 hover:text-white transition-colors duration-300'>
                                         View Details
                                     </Button>
                                     <Button onPress={() => handleAdoptNow(pet)} className='w-full py-2 rounded-lg bg-rose-50 text-rose-600 font-medium hover:bg-rose-500 hover:text-white transition-colors duration-300'>

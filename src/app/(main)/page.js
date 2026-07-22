@@ -1,12 +1,12 @@
-import BannerSection from '@/components/Banner';
+import BannerSection from '@/components/home/Banner';
 import React from 'react';
-import FeaturedPets from '../../components/FeaturedPets';
-import WhyAdopt from '@/components/WhyAdopt';
-import SuccessStories from '@/components/SuccessStories';
-import PetCare from '@/components/PetCare';
-import HelpsAnimals from '@/components/HelpsAnimals';
+import FeaturedPets from '../../components/home/FeaturedPets';
+import WhyAdopt from '@/components/home/WhyAdopt';
+import SuccessStories from '@/components/home/SuccessStories';
+import PetCare from '@/components/home/PetCare';
+import HelpsAnimals from '@/components/home/HelpsAnimals';
 
-import FamilyAdoption from '@/components/FamilyAdoption';
+import FamilyAdoption from '@/components/home/FamilyAdoption';
 
 const HomePage = () => {
   return (

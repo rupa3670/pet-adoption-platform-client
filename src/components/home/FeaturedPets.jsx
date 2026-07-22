@@ -41,7 +41,7 @@ const FeaturedPets = () => {
     <span className='flex items-center gap-1'> <Gear width={14} height={14} className='text-gray-400'/> {pet.breed}</span>
     <span className='flex items-center gap-1'><CalendarXmark width={14} height={14} className='text-gray-400' /> Birth:{pet.age}</span>
                     </div>
-     <Button onClick={()=>router.push(`/pets/${pet._id}`)} className='w-full py-2 rounded-lg bg-rose-50 text-rose-600 font-medium hover:bg-rose-500 hover:text-white transition-colors duration-300'>
+     <Button onPress={()=>router.push(`/pet/${pet._id}`)} className='w-full py-2 rounded-lg bg-rose-50 text-rose-600 font-medium hover:bg-rose-500 hover:text-white transition-colors duration-300'>
                                 View Details
                             </Button>                
                 </div>

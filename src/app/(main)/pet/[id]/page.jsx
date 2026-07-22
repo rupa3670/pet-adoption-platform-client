@@ -50,10 +50,13 @@ const DetailsPage = ({ params }) => {
             status: "pending"
         };
         try {
-            const res = await fetch("http://localhost:8000/adoptions", {
+            const res = await fetch("process.env.NEXT_PUBLIC_API_URL", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(adoptionData)
+                // headers:{
+                //     authorization:"logged in"
+                // }
             });
             const data = await res.json();
 
@@ -84,7 +87,7 @@ const DetailsPage = ({ params }) => {
     }
 
     return (
-        <section className='py-10 bg-base-100 min-h-screen px-4 max-w-7xl mx-auto'>
+        <section className='py-10 bg-base-100 min-h-screen px-4 max-w-7xl mx-auto mt-10'>
             <ToastContainer position='top-center' />
             
             <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 items-start bg-[#EFEAE3] rounded-2xl p-6 shadow-md'>

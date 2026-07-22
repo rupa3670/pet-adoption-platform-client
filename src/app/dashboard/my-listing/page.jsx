@@ -1,39 +1,49 @@
 'use client'
+import DeletePetModal from '@/components/modal/DeleteModal';
+import EditPetModal from '@/components/modal/EditModal';
+import RequestModal from '@/components/modal/RequestModal';
 import { authClient } from '@/lib/auth-client';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 const MyListingPage = () => {
-    const{data:session}=authClient.useSession();
+    const { data: session } = authClient.useSession();
     const [pets, setPets] = useState([]);
-    const [loading,setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(()=>{
-        if(!session?.user?.email) return;
+    useEffect(() => {
+        if (!session?.user?.email) return;
 
-        const fetchPets = async()=>{
+        const fetchPets = async () => {
             const res = await fetch(
                 `${process.env.NEXT_PUBLIC_API_URL}/pets/owner/${session.user.email}`,
-                {credentials:'include'}
+                { credentials: 'include' }
             );
-        const data = await res.json()
-        setPets(data);
-        setLoading(false)
-     };
-     fetchPets();
-    },[session]);
-    if(loading) return <p>Loading...</p>
+            const data = await res.json()
+            setPets(data);
+            setLoading(false)
+        };
+        fetchPets();
+    }, [session]);
+    if (loading) return <p>Loading...</p>
 
     const total = pets.length;
-    const available = pets.filter(p=>p.status !== 'adopted').length;
-    const adopted = pets.filter(p=>p.status === 'adopted').length;
+    const available = pets.filter(p => p.status !== 'adopted').length;
+    const adopted = pets.filter(p => p.status === 'adopted').length;
 
-
+    const handleDelete = (petId) => {
+        setPets((prev) => prev.filter((p) => p._id !== petId));
+    };
+    const handleUpdated = (updatedPet) => {
+        setPets((prev) =>
+            prev.map((p) => (p._id === updatedPet._id ? updatedPet : p)));
+    };
     return (
         <div className="p-6">
-            <h1 className="text-3xl font-bold text-zinc-800 dark:text-zinc-100 mb-2">My Listings</h1>
+            <h1 className="flex justify-center items-center text-3xl font-bold text-zinc-600 dark:text-zinc-100 mb-3 mt-6">My Listings</h1>
 
-            <div className="flex gap-6 mb-8">
+            <div className="flex gap-6 mb-8 justify-center items-center">
                 <div className="bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-xl px-5 py-3">
                     <p className="text-xs text-zinc-400 uppercase font-bold tracking-wider">Total</p>
                     <p className="text-2xl font-bold text-zinc-800 dark:text-zinc-100">{total}</p>
@@ -47,6 +57,14 @@ const MyListingPage = () => {
                     <p className="text-2xl font-bold text-rose-600 dark:text-rose-400">{adopted}</p>
                 </div>
             </div>
+
+            {/* {pets.length === 0?(
+                <div className='flex flex-col items-center justify-center text-center py-20 px-6 bg-[#fbf9f6] dark:bg-zinc-800/30 rounded-3xl border  border-dashed border-zinc-200 dark:border-zinc-700 max-w-xl mx-auto'>
+     <div>
+        <PawPrint
+     </div>
+                </div>
+            )} */}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {pets.map(pet => (
@@ -76,10 +94,17 @@ const MyListingPage = () => {
                             </p>
 
                             <div className="flex flex-wrap gap-2">
-                                <button className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-zinc-100 text-zinc-700 hover:bg-zinc-200 transition-colors">
-                                    Requests
-                                </button>
-                                <button className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
+                                <RequestModal pet={pet} />
+                                <EditPetModal pet={pet} onUpdated={handleUpdated} />
+                                <Link
+                                    href={`/pet/${pet._id}`}
+                                    className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 transition-colors"
+                                >
+                                    View
+                                </Link>
+                                <DeletePetModal pet={pet} onDeleted={handleDelete} />
+
+                                {/* <button className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
                                     Edit
                                 </button>
                                 <button className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-zinc-100 text-zinc-700 hover:bg-zinc-200 transition-colors">
@@ -87,7 +112,7 @@ const MyListingPage = () => {
                                 </button>
                                 <button className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors">
                                     Delete
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     </div>

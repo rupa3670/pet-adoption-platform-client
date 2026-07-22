@@ -6,10 +6,10 @@ import { ToastContainer } from "react-toastify";
 export default function MainLayout({ children }) {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <main className="flex-1">{children}</main>
-      <ToastContainer />
-      <Footer />
+      {/* <ToastContainer /> */}
+      {/* <Footer /> */}
     </>
   );
 }
