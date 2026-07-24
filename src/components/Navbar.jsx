@@ -9,6 +9,7 @@ import { Bars, CaretDown, Xmark } from '@gravity-ui/icons';
 import { Button } from '@heroui/react';
 import NavLink from '@/components/NavLink';
 import ThemeToggle from './home/ThemeToggle';
+import { AnimatePresence,motion } from 'motion/react';
 
 const Navbar = () => {
     const router = useRouter();
@@ -92,9 +93,15 @@ const Navbar = () => {
                                 <span className="text-sm font-bold text-rose-600">{session.user.name}</span>
                                 <span className="text-xs text-rose-400 flex items-center justify-center"><CaretDown width={14} height={14} /></span>
                             </button>
+<AnimatePresence>
+     {isOpen && (
 
-                            {isOpen && (
-                                <div className="absolute right-0 mt-2 w-44 bg-slate-50 dark:bg-zinc-900 border border-rose-100 dark:border-zinc-800 rounded-xl shadow-xl overflow-hidden z-50 py-1">
+    <motion.div
+    initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                                            transition={{ duration: 0.15 }}
+     className="absolute right-0 mt-2 w-44 bg-slate-50 dark:bg-zinc-900 border border-rose-100 dark:border-zinc-800 rounded-xl shadow-xl overflow-hidden z-50 py-1">
                                     <Link 
                                         href="/dashboard" 
                                         onClick={() => setIsOpen(false)} 
@@ -108,8 +115,10 @@ const Navbar = () => {
                                     >
                                         Logout
                                     </button>
-                                </div>
+                                </motion.div>
                             )}
+</AnimatePresence>
+                
                         </div>
                     ) : (
                         <Link href={'/login'} className='bg-rose-500 hover:bg-rose-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md transition-all'>
@@ -120,9 +129,17 @@ const Navbar = () => {
                </div>
             </div>
 
-            {isMobileMenuOpen && (
-                <div 
-                    ref={mobileMenuRef} 
+           <AnimatePresence>
+             {isMobileMenuOpen && (
+                <motion.div
+
+                    ref={mobileMenuRef}
+                
+                    initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                
                     className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 shadow-lg py-4 px-6 z-40"
                 >
                     <ul className="flex flex-col gap-4 text-sm font-semibold text-zinc-600 dark:text-zinc-300">
@@ -153,8 +170,9 @@ const Navbar = () => {
                             </>
                         )} */}
                     </ul>
-                </div>
+                </motion.div>
             )}
+           </AnimatePresence>
         </nav>
     );
 };
