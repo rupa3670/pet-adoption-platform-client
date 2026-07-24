@@ -24,6 +24,7 @@ const FormInput = ({ label, name, type = 'text', value, onChange, required, plac
 );
 
 const EditPetModal = ({ pet, onUpdated }) => {
+    const [isOpen, setIsOpen]= useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         petName: pet?.petName || '',
@@ -32,6 +33,13 @@ const EditPetModal = ({ pet, onUpdated }) => {
         imageUrl: pet?.imageUrl || '',
         description: pet?.description || '',
     });
+    const getToken = async () =>{
+        const tokenRes = await fetch(`${process.env.Next_PUBLIC_BETTER_AUTH_URL}/api/auth/token`,{
+            credentials:'include'
+        });
+    const tokenData = await tokenRes.json();
+    return tokenData?.token;
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -45,8 +53,10 @@ const EditPetModal = ({ pet, onUpdated }) => {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pets/${pet._id}`, {
                 method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                headers: { 'Content-Type': 'application/json',
+            Authorization:`Bearer ${token}`,
+                 },
+               
                 body: JSON.stringify(formData),
             });
 
@@ -54,16 +64,13 @@ const EditPetModal = ({ pet, onUpdated }) => {
 
             const updatedPet = await res.json();
             
-            toast.success('Updated successfully', {
-                description: `"${formData.petName}" listing has been updated.`,
-            });
+            toast.success(`"${formData.petName}" listing has been updated.`)
 
             onUpdated?.(updatedPet);
+        setIsOpen(false);
         } catch (err) {
             console.error('Update Pet Error:', err);
-            toast.danger('Error', {
-                description: 'Could not update the listing. Please try again.',
-            });
+           toast.error('Could not update the listing. please try again')
         } finally {
             setSubmitting(false);
         }

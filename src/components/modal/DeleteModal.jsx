@@ -1,33 +1,44 @@
 'use client'
 import { TriangleExclamation } from '@gravity-ui/icons';
-import { Button, Modal } from '@heroui/react';
+import { Button, Modal, Toast } from '@heroui/react';
 import { toast } from 'react-toastify';
 import React, { useState } from 'react';
 
 const DeletePetModal = ({ pet, onDeleted }) => {
+    const [isOpen, setIsOpen] = useState(false);
     const [deleting, setDeleting] = useState(false);
+
+    const getToken =async ()=>{
+        const tokenRes = await fetch(`${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/api/auth/token`,
+    {credentials:'include'}        );
+const tokenData = await tokenRes.json();
+return tokenData?.token;
+    };
 
     const handleDelete = async () => {
         setDeleting(true);
         try {
             const res = await fetch(
                 `${process.env.NEXT_PUBLIC_API_URL}/pets/${pet._id}`,
-                { method: 'DELETE', credentials: 'include' }
+                { method: 'DELETE', 
+                headers:{Authorization:`Bearer ${token}`},
+                 }
             );
 
             if (!res.ok) throw new Error('Delete failed');
 
-            toast.success('Listing deleted', {
-                description: `"${pet.petName}" has been removed from your listings.`,
-            });
+            toast.success(`"${pet.petName}" has been removed from your listing.`);
 
             onDeleted?.(pet._id); 
+            setIsOpen(false);
         } catch (err) {
-            toast.danger('Something went wrong', {
-                description: 'Could not delete the listing. Please try again.',
-            });
-            setDeleting(false);
+            toast.error('Could not delete the listing. Please try again.')
+            ;
+            
         }
+    finally{
+        setDeleting(false);
+    }
     };
 
     return (
