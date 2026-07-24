@@ -1,33 +1,64 @@
 'use client'
-import { Rocket } from '@gravity-ui/icons';
 import { Button, Modal } from '@heroui/react';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
-const RequestModal = ({pet, onClose}) => {
+const RequestModal = ({pet}) => {
     const [requests, setRequest] = useState([]);
     const [loading, setLoading] =useState(true);
+    const [updatingId, setUpdatingId] = useState(null);
+    
+    const getToken = async ()=>{
+        const tokenRes = await fetch(
+            `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/api/auth/token`,{
+                credentials:'include'
+            }
+        );
+    const tokenData = await tokenRes.json();
+    return tokenData?.token;
+    }
     
     const fetchRequest = async()=>{
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/adoptions/pet/${pet._id}`,
-            {credentials:'include'}
-        );
-        const data = await res.json();
-        setRequest(data);
-        setLoading(false);
+        setLoading(true);
+        getToken().then((token)=>{
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/adoptions/pet/${pet._id}`,{
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                },
+            })
+            .then((res)=>res.json())
+            .then((data)=>{
+                setRequest(Array.isArray(data)? data :[]);
+            })
+            .catch(()=> toast.error('Failed to load requests'))
+            .finally(()=>setLoading(false));
+        })
     };
     useEffect(()=>{
         if(pet?._id) fetchRequest();
-    },[pet])
+    },[pet?._id])
 
     const handleStatusChange = async (id, status)=>{
+        setUpdatingId(id);
+        const token = await getToken();
         await fetch(`${process.env.NEXT_PUBLIC_API_URL}/adoptions/${id}`,{
             method:'PATCH',
-            headers:{'Content-Type':'application/json'},
-            credentials:'include',
+            headers:{'Content-Type':'application/json',
+             Authorization:`Bearer ${token}`,
+            },
+           
             body:JSON.stringify({status, petId:pet._id}),
-        });
+        })
+        .then((res)=>{
+            if(!res.ok){
+                toast.error('Failed to update request status');
+                 return;
+            }
+          toast.success(`Request ${status}`);
         fetchRequest();
+        })
+    .catch(()=>toast.error('Failed to update request status'))
+   .finally(()=> setUpdatingId(null));
     }
 
     return (
@@ -76,19 +107,21 @@ const RequestModal = ({pet, onClose}) => {
 
                                             {req.status === 'pending' && (
                                                 <div className="flex gap-2">
+
                                                     <Button
                                                         size="sm"
-                                                        onClick={() => handleStatusChange(req._id, 'approved')}
+
+isDisabled={updatingId=== req._id}                                                        onClick={() => handleStatusChange(req._id, 'approved')}
                                                         className="bg-emerald-500 text-white hover:bg-emerald-600"
                                                     >
-                                                        Approve
+                                                        {updatingId === req._id?'...' :'Approve'}
                                                     </Button>
                                                     <Button
                                                         size="sm"
-                                                        onClick={() => handleStatusChange(req._id, 'rejected')}
+ isDisabled={updatingId === req._id}                                                       onClick={() => handleStatusChange(req._id, 'rejected')}
                                                         className="bg-rose-500 text-white hover:bg-rose-600"
                                                     >
-                                                        Reject
+                                                        {updatingId === req._id?'...' :'Reject'}
                                                     </Button>
                                                 </div>
                                             )}

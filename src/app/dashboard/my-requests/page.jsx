@@ -1,10 +1,11 @@
 'use client'
 import { authClient } from '@/lib/auth-client';
 import { Heart } from '@gravity-ui/icons';
+import { Button } from '@heroui/react';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 const statusStyles={
     pending:'bg-amber-100 text-amber-700',
@@ -15,28 +16,38 @@ const statusStyles={
 
 const MyRequestPage = () => {
     const {data:session}= authClient.useSession();
-    const [request, setRequests] = useState([]);
+    const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cancellingId, setCancellingId] = useState(null);
-
+   const getToken = async ()=>{
+    const tokenRes = await fetch(`${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/api/auth/token`,{
+        credentials:'include'
+    });
+    const tokenData = await tokenRes.json();
+    return tokenData?.token;
+   };
     useEffect(()=>{
         if (!session?.user?.email) return;
 
          setLoading(true);
-         fetch(`${process.env.NEXT_PUBLIC_API_URL}/adoptions/user/${session.user.email}`,{
-            credentials:'include',
+         getToken().then((token)=>{
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/adoptions/user/${session.user.email}`,{
+           headers:{ Authorization:`Bearer ${token}`},
          })
          .then((res)=>res.json())
          .then((data)=>setRequests(data))
          .catch(()=> toast.error('Failed to load your requests'))
          .finally(()=> setLoading(false));
+         })
+        
     },[session?.user?.email]);
 
     const handleCancel = (id)=>{
         setCancellingId(id);
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/adoptions/${id}`,{
+     getToken().then((token)=>{
+           fetch(`${process.env.NEXT_PUBLIC_API_URL}/adoptions/${id}`,{
             method:'DELETE',
-            credentials:'include',
+            headers:{Authorization:`Bearer ${token}`},
         })
         .then((res)=>{
             if(!res.ok){
@@ -48,7 +59,8 @@ const MyRequestPage = () => {
         })
     .catch(()=> toast.error('Could not cancel the request'))
     .finally(()=> setCancellingId(null));
-    }
+    })
+}
     if(loading){
         return(
             <div className='min-h-[60vh] flex items-center justify-center'>
@@ -64,8 +76,8 @@ const MyRequestPage = () => {
                 My Requests
             </h1>
 
-            {request.length === 0 ? (
-                <div className="flex flex-col items-center justify-center text-center py-20 px-6 bg-[#fbf9f6] dark:bg-zinc-800/30 rounded-3xl border border-dashed border-zinc-200 dark:border-zinc-700 max-w-xl mx-auto">
+            {requests.length === 0 ? (
+                <div className="flex flex-col items-center justify-center text-center py-20 px-6 bg-[#fcf7f1] dark:bg-zinc-800/30 rounded-3xl border border-dashed border-rose-200 dark:border-zinc-700 max-w-4xl mx-auto">
                     <div className="w-20 h-20 rounded-full bg-rose-50 dark:bg-rose-900/20 flex items-center justify-center mb-5">
                         <Heart className="text-rose-400 size-9" />
                     </div>
@@ -116,13 +128,13 @@ const MyRequestPage = () => {
                                     View
                                 </Link>
 
-                                <button
-                                    onClick={() => handleCancel(req._id)}
-                                    disabled={cancellingId === req._id}
+                                <Button
+                                    onPress={() => handleCancel(req._id)}
+                                    isDisabledisabled={cancellingId === req._id}
                                     className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors disabled:opacity-50"
                                 >
                                     {cancellingId === req._id ? 'Cancelling...' : 'Cancel'}
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     ))}

@@ -3,9 +3,11 @@ import DeletePetModal from '@/components/modal/DeleteModal';
 import EditPetModal from '@/components/modal/EditModal';
 import RequestModal from '@/components/modal/RequestModal';
 import { authClient } from '@/lib/auth-client';
+import { Heart } from '@gravity-ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 const MyListingPage = () => {
     const { data: session } = authClient.useSession();
@@ -16,13 +18,21 @@ const MyListingPage = () => {
         if (!session?.user?.email) return;
 
         const fetchPets = async () => {
-            const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/pets/owner/${session.user.email}`,
+            const tokenRes = await fetch(
+                `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/api/auth/token`,
                 { credentials: 'include' }
             );
-            const data = await res.json()
-            setPets(data);
-            setLoading(false)
+            const tokenData = await tokenRes.json();
+            const token = tokenData?.token;
+           fetch(`${process.env.NEXT_PUBLIC_API_URL}/pets/owner/${session.user.email}`,{
+            headers:{
+                Authorization:`Bearer ${token}`,
+            },
+           })
+           .then((res)=>res.json())
+           .then((data)=> setPets(data))
+           .catch(()=>toast.error('Failed to load your listing'))
+           .finally(()=> setLoading(false));
         };
         fetchPets();
     }, [session]);
@@ -58,15 +68,25 @@ const MyListingPage = () => {
                 </div>
             </div>
 
-            {/* {pets.length === 0?(
+            {pets.length === 0?(
                 <div className='flex flex-col items-center justify-center text-center py-20 px-6 bg-[#fbf9f6] dark:bg-zinc-800/30 rounded-3xl border  border-dashed border-zinc-200 dark:border-zinc-700 max-w-xl mx-auto'>
-     <div>
-        <PawPrint
+     <div className='rounded-full  flex items-center justify-center mb-5'>
+        <Heart width={20} height={20} className='text-rose-400 size-9' />
      </div>
+     <h3 className="text-xl font-bold text-zinc-700 dark:text-zinc-100 mb-2">
+            No pets listed yet
+        </h3>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-6 max-w-sm">
+            Start helping pets find their forever home by adding your first listing.
+        </p>
+        <Link
+            href="/dashboard/add-pet"
+            className="inline-flex items-center gap-2 bg-rose-500 hover:bg-rose-600 text-white font-semibold px-6 py-2.5 rounded-xl shadow-sm transition-all"
+        >
+            Add a Pet
+        </Link>
                 </div>
-            )} */}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            ):( <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {pets.map(pet => (
                     <div
                         key={pet._id}
@@ -118,6 +138,10 @@ const MyListingPage = () => {
                     </div>
                 ))}
             </div>
+
+            )}
+
+           
         </div>
     );
 };

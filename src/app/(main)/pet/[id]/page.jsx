@@ -87,7 +87,7 @@ const DetailsPage = ({ params }) => {
     }
 
     return (
-        <section className='py-10 bg-base-100 min-h-screen px-4 max-w-7xl mx-auto mt-10'>
+        <section className='py-10 bg-base-100 min-h-screen px-4 max-w-7xl mx-auto'>
             <ToastContainer position='top-center' />
             
             <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 items-start bg-[#EFEAE3] rounded-2xl p-6 shadow-md'>
