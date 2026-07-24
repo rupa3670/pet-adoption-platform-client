@@ -69,10 +69,10 @@ const AllPetsPage = () => {
     const categories = ["All", "Dog", "Cat", "Rabbit", "Bird"];
 
     return (
-        <section className='py-10 bg-base-100 min-h-screen'>
+        <section className='py-10 bg-base-100 min-h-screen mt-10'>
             <ToastContainer position="top-center" reverseOrder={false} />
-            <h2 className='text-5xl font-extrabold text-center text-[#2d2d2d] mb-2'>Featured Pets</h2>
-            <p className='text-center text-gray-500 mb-12 text-lg'>Meet our cute friends looking for a home</p>
+            <h2 className='text-5xl font-extrabold text-center text-[#2d2d2d] mb-2'>All Pets</h2>
+            <p className='text-center text-gray-500 mb-4 text-lg'>Browse all pets currently</p>
             <div className='max-w-md mx-auto px-6 mb-8'>
                 <div className='relative flex items-center group'>
                     <div className='absolute left-4 pointer-events-none text-gray-400 group-focus-within:text-rose-300 transition-colors duration-300 flex items-center justify-center'>

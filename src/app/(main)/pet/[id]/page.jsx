@@ -5,8 +5,8 @@ import React, { useEffect, useState, use } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import Image from 'next/image';
 import { CalendarXmark, Gear } from '@gravity-ui/icons';
-import { Button, FieldError, Form, Input, Label, TextArea, TextField } from 'react-aria-components';
-import { Description, FieldGroup, Fieldset } from '@heroui/react';
+// import { } from 'react-aria-components';
+import { Description, FieldGroup, Fieldset,Button, FieldError, Form, Input, Label, TextArea, TextField  } from '@heroui/react';
 
 const DetailsPage = ({ params }) => {
     const resolvedParams = use(params);
@@ -20,10 +20,14 @@ const DetailsPage = ({ params }) => {
     const [isSubmitting, setSubmitting] = useState(false);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/pets/${petId}`)
-            .then((res) => res.json())
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/pets/${petId}`)
+            .then((res) =>{
+        if(!res.ok) throw new Error;
+        return res.json();
+            } )
+            
             .then((data) => setPet(data))
-            .catch((err) => console.error("Error fetching pet details:", err));
+            .catch((err) => toast.error("Error fetching pet details:", err));
     }, [petId])
 
     useEffect(() => {
@@ -32,6 +36,15 @@ const DetailsPage = ({ params }) => {
             router.push(`/login?redirectTo=/all-pets/${petId}`)
         }
     }, [session, isPending, router, petId])
+
+    const getToken= async ()=>{
+        const tokenRes = await fetch(`${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/api/auth/token`,
+            {credentials:'include'}
+        );
+    const tokenData = await tokenRes.json();
+    return tokenData?.token;
+
+    };
 
     const handleAdoptSubmit = async (e) => {
         e.preventDefault();
@@ -47,12 +60,15 @@ const DetailsPage = ({ params }) => {
             userEmail: session?.user?.email || "No Email",
             pickupDate,
             message,
-            status: "pending"
+           
         };
         try {
-            const res = await fetch("process.env.NEXT_PUBLIC_API_URL", {
+            const token = await getToken();
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/adoptions`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json",
+            Authorization:`Bearer ${token}`,
+                 },
                 body: JSON.stringify(adoptionData)
                 // headers:{
                 //     authorization:"logged in"
@@ -86,6 +102,9 @@ const DetailsPage = ({ params }) => {
         );
     }
 
+    const isOwner = session?.user?.email === pet.ownerEmail;
+    const isAdopted = pet.status ==='adopted';
+
     return (
         <section className='py-10 bg-base-100 min-h-screen px-4 max-w-7xl mx-auto'>
             <ToastContainer position='top-center' />
@@ -115,7 +134,17 @@ const DetailsPage = ({ params }) => {
                 </div>
 
                 <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 lg:sticky lg:top-6">
-                    <Form className="w-full flex flex-col" onSubmit={handleAdoptSubmit}>
+    {isAdopted?(
+        <div className='text-center py-10'>
+  <p className='text-lg font-semibold text-zinc-700'>This pet has already been adopted</p>
+  <p className="text-sm text-gray-500 mt-2">Check out other looking for a home.</p>
+        </div>
+    ): isOwner?(
+   <div className='text-center py-10'>
+  <p className='text-lg font-semibold text-zinc-700'>This is your own listing</p>
+  <p className="text-sm text-gray-500 mt-2">You can not submit an adoption request for you own pet.</p>
+        </div>     
+    ):(  <Form className="w-full flex flex-col" onSubmit={handleAdoptSubmit}>
                         <Fieldset className="w-full">
                             <Fieldset.Legend className="text-2xl font-bold text-[#2d2d2d] text-center w-full block mb-1">
                                 Adopt {pet.petName}
@@ -187,7 +216,8 @@ const DetailsPage = ({ params }) => {
                                 </Button>
                             </Fieldset.Actions>
                         </Fieldset>
-                    </Form>
+                    </Form>)}
+                  
                 </div>
 
             </div>
