@@ -48,6 +48,7 @@ const AllPetsPage = () => {
                 pet.petName?.toLowerCase().includes(searchQuery.toLowerCase())
             );
         }
+        result.sort((a,b)=>a.petName.localeCompare(b.petName));
         setFilteredPets(result);
     }, [searchQuery, activeCategory, pets]);
 
@@ -84,7 +85,7 @@ const AllPetsPage = () => {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className='w-full pl-12 pr-12 py-3.5 rounded-full border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-300 transition-all text-gray-700 shadow-sm'
                     />
-                    {searchQuery && (
+                    {/* {searchQuery && (
                         <button
                             onClick={() => setSearchQuery("")}
                             className='absolute right-4 text-gray-400 hover:text-rose-200 transition-colors duration-200 flex items-center justify-center'
@@ -93,7 +94,7 @@ const AllPetsPage = () => {
                         >
                             <Xmark width={16} height={16}/>
                         </button>
-                    )}
+                    )} */}
                 </div>
             </div>
             

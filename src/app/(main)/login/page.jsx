@@ -2,14 +2,17 @@
 
 import { authClient } from '@/lib/auth-client';
 import { Button, Card, FieldError, Form, Input, Label, TextField } from '@heroui/react';
-import React from 'react';
-import { useRouter } from 'next/navigation'; 
+import React, { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation'; 
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
 
 const Login = () => {
-    const router = useRouter(); 
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirectPath = searchParams.get('redirect') ||'/';
+    const [loading, setLoading] = useState(false);
    
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -24,14 +27,22 @@ const Login = () => {
         if (error) {
             console.error("Login failed:", error.message);
             toast.error(error.message); 
+            setLoading(false);
             return;
         }
 
         if (data) {
             console.log("Login successful!", data);
-            toast.success("Welcome back!");
+            const {data:tokenData} = await authClient.token();
+            if(tokenData?.token){
+          
+
+                toast.success("Welcome back!");
             router.push('/'); 
-            router.refresh(); 
+            router.refresh();
+
+            }
+             
         }
     };
 
