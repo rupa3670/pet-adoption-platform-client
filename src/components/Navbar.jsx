@@ -8,6 +8,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Bars, CaretDown, Xmark } from '@gravity-ui/icons';
 import { Button } from '@heroui/react';
 import NavLink from '@/components/NavLink';
+import ThemeToggle from './home/ThemeToggle';
 
 const Navbar = () => {
     const router = useRouter();
@@ -77,7 +78,9 @@ const Navbar = () => {
                     )} */}
                 </ul>
 
-                <div className='relative' ref={dropdownRef}>
+               <div className='flex items-center gap-3'>
+                <ThemeToggle/>
+                 <div className='relative' ref={dropdownRef}>
                     {isPending ? (
                         <div className="h-9 w-24 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded-lg" />
                     ) : session ? (
@@ -114,6 +117,7 @@ const Navbar = () => {
                         </Link>
                     )}
                 </div>
+               </div>
             </div>
 
             {isMobileMenuOpen && (
@@ -122,6 +126,7 @@ const Navbar = () => {
                     className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 shadow-lg py-4 px-6 z-40"
                 >
                     <ul className="flex flex-col gap-4 text-sm font-semibold text-zinc-600 dark:text-zinc-300">
+                        <li><ThemeToggle/></li>
                         <li>
                             <NavLink href={'/'} onClick={() => setIsMobileMenuOpen(false)} className='block hover:text-rose-500 py-1'>
                                 Home
