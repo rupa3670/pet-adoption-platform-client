@@ -88,10 +88,10 @@ const Navbar = () => {
                         <div>
                             <button 
                                 onClick={() => setIsOpen(!isOpen)}
-                                className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 border border-rose-100 hover:bg-rose-100 transition-all focus:outline-none"
+                                className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 dark:bg-rose-600 dark:text-white border border-rose-100 hover:bg-rose-100 transition-all focus:outline-none duration-300"
                             >
-                                <span className="text-sm font-bold text-rose-600">{session.user.name}</span>
-                                <span className="text-xs text-rose-400 flex items-center justify-center"><CaretDown width={14} height={14} /></span>
+                                <span className="text-sm font-bold text-rose-600 dark:text-rose-50">{session.user.name}</span>
+                                <span className="text-xs text-rose-400 dark:text-rose-50 flex items-center justify-center"><CaretDown width={14} height={14} /></span>
                             </button>
 <AnimatePresence>
      {isOpen && (
@@ -121,7 +121,7 @@ const Navbar = () => {
                 
                         </div>
                     ) : (
-                        <Link href={'/login'} className='bg-rose-500 hover:bg-rose-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md transition-all'>
+                        <Link href={'/login'} className='bg-rose-500  hover:bg-rose-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md transition-all'>
                             Login
                         </Link>
                     )}
@@ -129,16 +129,13 @@ const Navbar = () => {
                </div>
             </div>
 
-           <AnimatePresence>
+           
              {isMobileMenuOpen && (
-                <motion.div
+                <div
 
                     ref={mobileMenuRef}
                 
-                    initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25 }}
+                   
                 
                     className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 shadow-lg py-4 px-6 z-40"
                 >
@@ -170,9 +167,9 @@ const Navbar = () => {
                             </>
                         )} */}
                     </ul>
-                </motion.div>
+                </div>
             )}
-           </AnimatePresence>
+           
         </nav>
     );
 };

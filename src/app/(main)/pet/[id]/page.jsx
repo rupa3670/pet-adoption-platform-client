@@ -27,7 +27,7 @@ const DetailsPage = ({ params }) => {
             } )
             
             .then((data) => setPet(data))
-            .catch((err) => toast.error("Error fetching pet details:", err));
+            .catch(() => toast.error("Error fetching pet details:"));
     }, [petId])
 
     useEffect(() => {
@@ -106,13 +106,13 @@ const DetailsPage = ({ params }) => {
     const isAdopted = pet.status ==='adopted';
 
     return (
-        <section className='py-10 bg-base-100 min-h-screen px-4 max-w-7xl mx-auto'>
+        <section className='py-10 bg-base-100 min-h-screen px-4 max-w-7xl mx-auto mt-14'>
             <ToastContainer position='top-center' />
             
-            <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 items-start bg-[#EFEAE3] rounded-2xl p-6 shadow-md'>
+            <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 items-start bg-[#EFEAE3] dark:bg-zinc-800 rounded-2xl p-6 shadow-md'>
                 
                 <div className='lg:col-span-2 space-y-6'>
-                    <div className='relative w-full h-[450px] rounded-xl overflow-hidden bg-white shadow-inner'>
+                    <div className='relative w-full h-[450px] rounded-xl overflow-hidden bg-white dark:bg-zinc-950 shadow-inner'>
                         <Image
                             src={pet.imageUrl}
                             alt={pet.petName}
@@ -121,19 +121,19 @@ const DetailsPage = ({ params }) => {
                             priority
                         />
                     </div>
-                    <div className="bg-white rounded-xl p-6 shadow-sm">
+                    <div className="bg-white dark:bg-zinc-950 rounded-xl p-6 shadow-sm">
                         <h2 className="text-3xl font-bold text-rose-600 mb-4">{pet.petName}</h2>
-                        <div className="flex gap-6 text-gray-600 mb-4 text-base">
+                        <div className="flex gap-6 text-gray-600 dark:text-zinc-100 mb-4 text-base">
                             <span className="flex items-center gap-2"><Gear /> <strong>Breed:</strong> {pet.breed}</span>
                             <span className="flex items-center gap-2"><CalendarXmark /> <strong>Age:</strong> {pet.age}</span>
                         </div>
-                        <p className="text-gray-700 leading-relaxed">
+                        <p className="text-gray-700  dark:text-zinc-100 leading-relaxed">
                             {pet.description || "No description provided. This lovely pet is looking for a warm home and a caring family."}
                         </p>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 lg:sticky lg:top-6">
+                <div className="bg-white dark:bg-zinc-950 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-zinc-900 lg:sticky lg:top-6">
     {isAdopted?(
         <div className='text-center py-10'>
   <p className='text-lg font-semibold text-zinc-700'>This pet has already been adopted</p>
@@ -146,27 +146,27 @@ const DetailsPage = ({ params }) => {
         </div>     
     ):(  <Form className="w-full flex flex-col" onSubmit={handleAdoptSubmit}>
                         <Fieldset className="w-full">
-                            <Fieldset.Legend className="text-2xl font-bold text-[#2d2d2d] text-center w-full block mb-1">
+                            <Fieldset.Legend className="text-2xl font-bold text-[#2d2d2d] dark:text-zinc-50 text-center w-full block mb-1">
                                 Adopt {pet.petName}
                             </Fieldset.Legend>
-                            <Description className="text-center text-sm text-gray-500 mb-6 block">
+                            <Description className="text-center text-sm text-gray-500 dark:text-zinc-100 mb-6 block">
                                 Please review the information below to submit request.
                             </Description>
 
                             <FieldGroup className="space-y-4">
                                 <TextField isReadOnly name="petName" value={pet.petName} className="flex flex-col gap-1">
                                     <Label className="text-sm font-semibold text-gray-700">Pet Name</Label>
-                                    <Input className="w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 outline-none" />
+                                    <Input className="w-full p-2.5 border border-rose-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all" />
                                 </TextField>
 
                                 <TextField isReadOnly name="userName" value={session.user.name} className="flex flex-col gap-1">
                                     <Label className="text-sm font-semibold text-gray-700">Your Name</Label>
-                                    <Input className="w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 outline-none" />
+                                    <Input className="w-full p-2.5 border border-rose-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all" />
                                 </TextField>
 
                                 <TextField isReadOnly name="userEmail" value={session.user.email} className="flex flex-col gap-1">
                                     <Label className="text-sm font-semibold text-gray-700">Your Email</Label>
-                                    <Input className="w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 outline-none" />
+                                    <Input className="w-full p-2.5 border border-rose-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all" />
                                 </TextField>
 
                                 <TextField
@@ -208,8 +208,8 @@ const DetailsPage = ({ params }) => {
                                 <Button
                                     type="submit"
                                     isDisabled={isSubmitting}
-                                    className={`w-full py-3 rounded-lg font-bold text-white shadow-md transition-all text-center block text-base ${
-                                        isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-rose-600 hover:bg-rose-700 active:bg-rose-800 cursor-pointer'
+                                    className={`w-full py-2 rounded-lg font-bold text-white shadow-md transition-all text-center block text-base ${
+                                        isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-rose-600 hover:bg-rose-700 active:bg-rose-800 cursor-pointer p-4'
                                     }`}
                                 >
                                     {isSubmitting ? "Submitting Request..." : "Submit Adoption Request"}

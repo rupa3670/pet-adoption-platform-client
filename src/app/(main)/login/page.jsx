@@ -11,7 +11,7 @@ import { FcGoogle } from 'react-icons/fc';
 const Login = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const redirectPath = searchParams.get('redirect') ||'/';
+    const redirectPath = searchParams.get('redirectTo') || '/';
     const [loading, setLoading] = useState(false);
    
     const onSubmit = async (e) => {
@@ -38,7 +38,7 @@ const Login = () => {
           
 
                 toast.success("Welcome back!");
-            router.push('/'); 
+            router.push(redirectPath); 
             router.refresh();
 
             }
@@ -49,10 +49,10 @@ const Login = () => {
     const handleGoogleLogIn = async()=>{
         const{error} = await authClient.signIn.social({
             provider:"google",
-            callbackURL:"/",
+            callbackURL:redirectPath,
         });
         
-   const { data:tokenData } = await authClient.token()
+
         if(error){
             toast.error(error.message);
         }

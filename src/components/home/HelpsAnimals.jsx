@@ -3,7 +3,7 @@ import React from 'react';
 
 const HelpsAnimals = () => {
     return (
-        <section className='bg-[#fbf9f6] py-16 px-6 overflow-hidden relative w-full rounded-3xl'>
+        <section className='bg-[#fbf9f6] dark:bg-zinc-900 py-16 px-6 overflow-hidden relative w-full rounded-3xl transition-colors duration-300'>
             <div className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center'>
                 
                 
@@ -22,10 +22,10 @@ const HelpsAnimals = () => {
 
                
                 <div className='col-span-12 md:col-span-6 flex flex-col items-center md:items-start text-center md:text-left space-y-3 px-2'>
-                    <h2 className='text-3xl md:text-4xl font-extrabold text-[#2d2d2d] tracking-tight leading-tight text-center mb-3'>
+                    <h2 className='text-3xl md:text-4xl font-extrabold text-[#2d2d2d] dark:text-zinc-100 tracking-tight leading-tight text-center mb-3 transition-colors duration-300'>
                         Help Animals Affected by Human Actions
                     </h2>
-                    <p className='text-sm text-gray-600 leading-relaxed font-medium max-w-xl text-center'>
+                    <p className='text-sm text-gray-600 dark:text-zinc-400 leading-relaxed font-medium max-w-xl text-center transition-colors duration-300'>
                         Every day, countless street animals face hunger, accidents, and cruelty. Your small contribution can provide life-saving medical care, warm shelter, and daily meals to these innocent souls. Lets give them the love and protection they truly deserve.
                     </p>
                 </div>

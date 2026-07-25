@@ -130,11 +130,11 @@ isDisabled={updatingId=== req._id}                                              
                                 ))}
                             </div>
                         </Modal.Body>
-            <Modal.Footer>
+            {/* <Modal.Footer>
               <Button className="bg-mist-500" slot="close">
                 Close
               </Button>
-            </Modal.Footer>
+            </Modal.Footer> */}
           </Modal.Dialog>
         </Modal.Container>
       </Modal.Backdrop>

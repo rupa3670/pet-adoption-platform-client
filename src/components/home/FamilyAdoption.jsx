@@ -4,7 +4,7 @@ import React from 'react';
 const FamilyAdoption = () => {
   
     return (
-<section className='bg-[#e9eff1] dark:bg-zinc-900 py-12 px-6 rounded-3xl w-full transition-colors duration-300'>
+<section className='bg-[#fbf9f6] dark:bg-zinc-900 py-12 px-6 rounded-3xl w-full transition-colors duration-300'>
     <div className='max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center'>
         <div className='relative w-full h-[280px] sm:h-[450px] rounded-2xl overflow-hidden shadow-sm'>
             <Image

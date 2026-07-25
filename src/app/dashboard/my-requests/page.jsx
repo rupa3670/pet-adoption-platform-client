@@ -130,7 +130,7 @@ const MyRequestPage = () => {
 
                                 <Button
                                     onPress={() => handleCancel(req._id)}
-                                    isDisabledisabled={cancellingId === req._id}
+                                    isDisabled={cancellingId === req._id}
                                     className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors disabled:opacity-50"
                                 >
                                     {cancellingId === req._id ? 'Cancelling...' : 'Cancel'}

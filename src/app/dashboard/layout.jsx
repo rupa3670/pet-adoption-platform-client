@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
+import { ToastContainer } from 'react-toastify'
 
 const navItems = [
          { name:'Add Pet', href:'/dashboard/add-pet',icon:Plus
@@ -25,8 +26,8 @@ const DashboardLayout = ({session,children}) => {
         });
     };
     return (
-        <div className='flex min-h-screen bg-white'>
-        <aside className='w-64 shrink-0 hidden md:flex  flex-col bg-[#fbf9f6] border-r border-gray-100 min-h-screen py-8 px-5 '>
+        <div className='flex min-h-screen bg-white dark:bg-zinc-950'>
+        <aside className='w-64 shrink-0 hidden md:flex  flex-col bg-[#fbf9f6] dark:bg-zinc-800 border-r border-gray-100 min-h-screen py-8 px-5 '>
             <div className='flex items-center gap-3 px-2 mb-8'>
                 {/* <div className='relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-rose-100 shrink-0'>
                     {session?.user?.image?(
@@ -42,11 +43,11 @@ const DashboardLayout = ({session,children}) => {
 
                 </div> */}
 <div className='min-w-0 mt-10'>
-  <p className='text-sm font-bold text-[#2d2d2d] leading-tight truncate'>{session?.user?.name}</p>
-  <p className='text-[11px] text-gray-400 truncate'>{session?.user?.email}</p>
+  <p className='text-sm font-bold text-[#2d2d2d] dark:text-zinc-200 leading-tight truncate'>{session?.user?.name}</p>
+  <p className='text-[11px] text-gray-400 dark:text-zinc-100 truncate'>{session?.user?.email}</p>
 </div>
  </div>
- <span className='px-2 mb-3 text-[12px] font-bold tracking-widest text-gray-500 uppercase'>Dashboard</span>
+ <span className='px-2 mb-3 text-[12px] font-bold tracking-widest text-gray-500 dark:text-zinc-100 uppercase'>Dashboard</span>
   <nav className='flex flex-col gap-0.5'>
                 {navItems.map((item) => {
                     const isActive = pathname === item.href;
@@ -83,6 +84,7 @@ const DashboardLayout = ({session,children}) => {
         </aside>
         <main className="flex-1 p-6 md:p-10 overflow-y-auto">
                 {children}
+                 <ToastContainer position="top-center" />
             </main>
         </div>
     );

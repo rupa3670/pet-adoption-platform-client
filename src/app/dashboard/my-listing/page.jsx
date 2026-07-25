@@ -90,7 +90,7 @@ const MyListingPage = () => {
                 {pets.map(pet => (
                     <div
                         key={pet._id}
-                        className="group rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-[#EFEAE3]"
+                        className="group rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-[#EFEAE3] dark:bg-zinc-800"
                     >
                         <div className="relative w-full h-64 overflow-hidden">
                             <Image
@@ -107,7 +107,7 @@ const MyListingPage = () => {
                             )}
                         </div>
 
-                        <div className="bg-white rounded-t-2xl px-5 py-4 -mt-4 relative">
+                        <div className="bg-white dark:bg-zinc-900 rounded-t-2xl px-5 py-4 -mt-4 relative">
                             <h3 className="text-lg font-bold text-rose-600 mb-2">{pet.petName}</h3>
                             <p className="text-rose-500 font-semibold mb-3">
                                 {pet.adoptionFee > 0 ? `৳${pet.adoptionFee}` : 'Free'}

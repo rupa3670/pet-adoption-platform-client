@@ -3,10 +3,9 @@ import Link from 'next/link';
 import {LogoFacebook, LogoLinkedin} from '@gravity-ui/icons';
 const Footer = () => {
   return (
-    <footer className="bg-zinc-950 text-zinc-400 px-6 md:px-16 py-16 mt-10 border-t border-zinc-900">
+    <footer className="bg-zinc-950 dark:bg-zinc-800 text-zinc-400 px-6 md:px-16 py-16 mt-10 border-t border-zinc-900">
       <div className="max-w-7xl mx-auto">
         
-        {/* Brand Header Section */}
         <div className="mb-12">
           <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight">
             Pet<span className="text-rose-500">Adopt</span>
@@ -16,10 +15,9 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Grid Section */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           
-          {/* Newsletter Section */}
+        
           <div>
             <h3 className="text-white text-xs font-bold uppercase tracking-widest mb-4">NEWSLETTER</h3>
             <p className="mb-4 text-sm leading-relaxed">
@@ -28,7 +26,6 @@ const Footer = () => {
 
           </div>
 
-          {/* Quick Links */}
           <div>
             <h3 className="text-white text-xs font-bold uppercase tracking-widest mb-4">QUICK LINKS</h3>
             <ul className="space-y-2.5 text-sm">
@@ -47,7 +44,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Support & Resources */}
+    
           <div>
             <h3 className="text-white text-xs font-bold uppercase tracking-widest mb-4">RESOURCES</h3>
             <ul className="space-y-2.5 text-sm">
@@ -63,7 +60,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Details */}
+       
           <div>
             <h3 className="text-white text-xs font-bold uppercase tracking-widest mb-4">CONTACT US</h3>
             <ul className="space-y-2.5 text-sm">
@@ -78,13 +75,13 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Section */}
+       
         <div className="border-t border-zinc-900 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center text-zinc-500">
           <p className="text-xs">
             &copy; 2026 PetAdopt. Built with love for animals. All rights reserved.
           </p>
 
-          {/* Social Icons */}
+         
           <div className="flex gap-5 mt-4 md:mt-0 text-zinc-400 text-base">
             <a href="#" className="hover:text-rose-500 transition-colors" title="Facebook">
               <LogoFacebook/>
