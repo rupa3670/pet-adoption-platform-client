@@ -18,6 +18,9 @@ const AllPetsPage = () => {
     const [activeCategory, setActiveCategory] = useState("All");
     const [isLoading, setIsLoading] = useState(true); 
 
+    const sortPets = (list) => {
+    return [...list].sort((a, b) => a.petName.localeCompare(b.petName));
+};
  
  
    useEffect(() => {
@@ -30,7 +33,7 @@ const AllPetsPage = () => {
         .then((res) => res.json())
         .then((data) => {
             setPets(data);
-            setFilteredPets(data);
+            setFilteredPets(sortPets(data));
         })
         .catch(() => {
             toast.error("Failed to load pets");

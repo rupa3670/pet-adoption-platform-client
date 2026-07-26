@@ -3,7 +3,7 @@ import { Button, Modal } from '@heroui/react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-const RequestModal = ({pet}) => {
+const RequestModal = ({pet,onStatusChange}) => {
     const [requests, setRequest] = useState([]);
     const [loading, setLoading] =useState(true);
     const [updatingId, setUpdatingId] = useState(null);
@@ -56,6 +56,7 @@ const RequestModal = ({pet}) => {
             }
           toast.success(`Request ${status}`);
         fetchRequest();
+        onStatusChange?.();
         })
     .catch(()=>toast.error('Failed to update request status'))
    .finally(()=> setUpdatingId(null));

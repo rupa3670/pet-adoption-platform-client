@@ -41,7 +41,7 @@ const AddPetPage = () => {
                     setImageUrl(data.data.url);
                     toast.success("Image uploaded successfully!");
                 } else {
-                    toast.error("Image upload failed! Please try again");
+                    toast.error("Image upload failed! Please upload small size image");
                 }
                 setImageLoading(false);
             })

@@ -15,38 +15,37 @@ const MyListingPage = () => {
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
+    const fetchData = async () => {
         if (!session?.user?.email) return;
+        try {
+            const tokenRes = await fetch(
+                `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/api/auth/token`,
+                { credentials: 'include' }
+            );
+            const tokenData = await tokenRes.json();
+            const token = tokenData?.token;
 
-        const fetchData = async () => {
-            try {
-                const tokenRes = await fetch(
-                    `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/api/auth/token`,
-                    { credentials: 'include' }
-                );
-                const tokenData = await tokenRes.json();
-                const token = tokenData?.token;
+            const petsRes = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/pets/owner/${session.user.email}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            const petsData = await petsRes.json();
+            setPets(petsData);
 
-                // Fetch pets
-                const petsRes = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/pets/owner/${session.user.email}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
-                const petsData = await petsRes.json();
-                setPets(petsData);
+            const reqRes = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/adoptions/owner/${session.user.email}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            const reqData = await reqRes.json();
+            setRequests(Array.isArray(reqData) ? reqData : []);
+        } catch (err) {
+            toast.error('Failed to load your listing');
+        } finally {
+            setLoading(false);
+        }
+    };
 
-                const reqRes = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/adoptions/owner/${session.user.email}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
-                const reqData = await reqRes.json();
-                setRequests(Array.isArray(reqData) ? reqData : []);
-            } catch (err) {
-                toast.error('Failed to load your listing');
-            } finally {
-                setLoading(false);
-            }
-        };
+    useEffect(() => {
         fetchData();
     }, [session]);
 
@@ -140,7 +139,7 @@ const MyListingPage = () => {
 
                                     <div className="flex flex-wrap gap-2 items-center">
                                         <div className="relative inline-block">
-                                            <RequestModal pet={pet} />
+                                            <RequestModal pet={pet}  onStatusChange={fetchData}/>
                                             {pendingCount > 0 && (
                                                 <span className="absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-1 shadow-sm">
                                                     {pendingCount}
