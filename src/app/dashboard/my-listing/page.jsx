@@ -12,30 +12,44 @@ import { toast } from 'react-toastify';
 const MyListingPage = () => {
     const { data: session } = authClient.useSession();
     const [pets, setPets] = useState([]);
+    const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (!session?.user?.email) return;
 
-        const fetchPets = async () => {
-            const tokenRes = await fetch(
-                `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/api/auth/token`,
-                { credentials: 'include' }
-            );
-            const tokenData = await tokenRes.json();
-            const token = tokenData?.token;
-           fetch(`${process.env.NEXT_PUBLIC_API_URL}/pets/owner/${session.user.email}`,{
-            headers:{
-                Authorization:`Bearer ${token}`,
-            },
-           })
-           .then((res)=>res.json())
-           .then((data)=> setPets(data))
-           .catch(()=>toast.error('Failed to load your listing'))
-           .finally(()=> setLoading(false));
+        const fetchData = async () => {
+            try {
+                const tokenRes = await fetch(
+                    `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/api/auth/token`,
+                    { credentials: 'include' }
+                );
+                const tokenData = await tokenRes.json();
+                const token = tokenData?.token;
+
+                // Fetch pets
+                const petsRes = await fetch(
+                    `${process.env.NEXT_PUBLIC_API_URL}/pets/owner/${session.user.email}`,
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+                const petsData = await petsRes.json();
+                setPets(petsData);
+
+                const reqRes = await fetch(
+                    `${process.env.NEXT_PUBLIC_API_URL}/adoptions/owner/${session.user.email}`,
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+                const reqData = await reqRes.json();
+                setRequests(Array.isArray(reqData) ? reqData : []);
+            } catch (err) {
+                toast.error('Failed to load your listing');
+            } finally {
+                setLoading(false);
+            }
         };
-        fetchPets();
+        fetchData();
     }, [session]);
+
     if (loading) return <p>Loading...</p>
 
     const total = pets.length;
@@ -49,6 +63,14 @@ const MyListingPage = () => {
         setPets((prev) =>
             prev.map((p) => (p._id === updatedPet._id ? updatedPet : p)));
     };
+
+    
+    const getPendingCount = (petId) => {
+        return requests.filter(
+            (r) => r.petId === petId?.toString() && r.status === 'pending'
+        ).length;
+    };
+
     return (
         <div className="p-6">
             <h1 className="flex justify-center items-center text-3xl font-bold text-zinc-600 dark:text-zinc-100 mb-3 mt-6">My Listings</h1>
@@ -68,80 +90,78 @@ const MyListingPage = () => {
                 </div>
             </div>
 
-            {pets.length === 0?(
+            {pets.length === 0 ? (
                 <div className='flex flex-col items-center justify-center text-center py-20 px-6 bg-[#fbf9f6] dark:bg-zinc-800/30 rounded-3xl border  border-dashed border-zinc-200 dark:border-zinc-700 max-w-xl mx-auto'>
-     <div className='rounded-full  flex items-center justify-center mb-5'>
-        <Heart width={20} height={20} className='text-rose-400 size-9' />
-     </div>
-     <h3 className="text-xl font-bold text-zinc-700 dark:text-zinc-100 mb-2">
-            No pets listed yet
-        </h3>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-6 max-w-sm">
-            Start helping pets find their forever home by adding your first listing.
-        </p>
-        <Link
-            href="/dashboard/add-pet"
-            className="inline-flex items-center gap-2 bg-rose-500 hover:bg-rose-600 text-white font-semibold px-6 py-2.5 rounded-xl shadow-sm transition-all"
-        >
-            Add a Pet
-        </Link>
-                </div>
-            ):( <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {pets.map(pet => (
-                    <div
-                        key={pet._id}
-                        className="group rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-[#EFEAE3] dark:bg-zinc-800"
-                    >
-                        <div className="relative w-full h-64 overflow-hidden">
-                            <Image
-                                src={pet.imageUrl}
-                                alt={pet.petName}
-                                fill
-                                sizes="(max-width:768px) 100vw, (max-width:1200px)50vw, 33vw"
-                                className="object-contain object-bottom p-4 transition-transform duration-300 group-hover:scale-110"
-                            />
-                            {pet.status === 'adopted' && (
-                                <span className="absolute top-2 right-2 bg-rose-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                    Adopted
-                                </span>
-                            )}
-                        </div>
-
-                        <div className="bg-white dark:bg-zinc-900 rounded-t-2xl px-5 py-4 -mt-4 relative">
-                            <h3 className="text-lg font-bold text-rose-600 mb-2">{pet.petName}</h3>
-                            <p className="text-rose-500 font-semibold mb-3">
-                                {pet.adoptionFee > 0 ? `৳${pet.adoptionFee}` : 'Free'}
-                            </p>
-
-                            <div className="flex flex-wrap gap-2">
-                                <RequestModal pet={pet} />
-                                <EditPetModal pet={pet} onUpdated={handleUpdated} />
-                                <Link
-                                    href={`/pet/${pet._id}`}
-                                    className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 transition-colors"
-                                >
-                                    View
-                                </Link>
-                                <DeletePetModal pet={pet} onDeleted={handleDelete} />
-
-                                {/* <button className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
-                                    Edit
-                                </button>
-                                <button className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-zinc-100 text-zinc-700 hover:bg-zinc-200 transition-colors">
-                                    View
-                                </button>
-                                <button className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors">
-                                    Delete
-                                </button> */}
-                            </div>
-                        </div>
+                    <div className='rounded-full  flex items-center justify-center mb-5'>
+                        <Heart width={20} height={20} className='text-rose-400 size-9' />
                     </div>
-                ))}
-            </div>
+                    <h3 className="text-xl font-bold text-zinc-700 dark:text-zinc-100 mb-2">
+                        No pets listed yet
+                    </h3>
+                    <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-6 max-w-sm">
+                        Start helping pets find their forever home by adding your first listing.
+                    </p>
+                    <Link
+                        href="/dashboard/add-pet"
+                        className="inline-flex items-center gap-2 bg-rose-500 hover:bg-rose-600 text-white font-semibold px-6 py-2.5 rounded-xl shadow-sm transition-all"
+                    >
+                        Add a Pet
+                    </Link>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {pets.map(pet => {
+                        const pendingCount = getPendingCount(pet._id);
+                        return (
+                            <div
+                                key={pet._id}
+                                className="group rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-[#EFEAE3] dark:bg-zinc-800"
+                            >
+                                <div className="relative w-full h-64 overflow-hidden">
+                                    <Image
+                                        src={pet.imageUrl}
+                                        alt={pet.petName}
+                                        fill
+                                        sizes="(max-width:768px) 100vw, (max-width:1200px)50vw, 33vw"
+                                        className="object-contain object-bottom p-4 transition-transform duration-300 group-hover:scale-110"
+                                    />
+                                    {pet.status === 'adopted' && (
+                                        <span className="absolute top-2 right-2 bg-rose-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                            Adopted
+                                        </span>
+                                    )}
+                                </div>
 
+                                <div className="bg-white dark:bg-zinc-900 rounded-t-2xl px-5 py-4 -mt-4 relative">
+                                    <h3 className="text-lg font-bold text-rose-600 mb-2">{pet.petName}</h3>
+                                    <p className="text-rose-500 font-semibold mb-3">
+                                        {pet.adoptionFee > 0 ? `৳${pet.adoptionFee}` : 'Free'}
+                                    </p>
+
+                                    <div className="flex flex-wrap gap-2 items-center">
+                                        <div className="relative inline-block">
+                                            <RequestModal pet={pet} />
+                                            {pendingCount > 0 && (
+                                                <span className="absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-1 shadow-sm">
+                                                    {pendingCount}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <EditPetModal pet={pet} onUpdated={handleUpdated} />
+                                        <Link
+                                            href={`/pet/${pet._id}`}
+                                            className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 transition-colors"
+                                        >
+                                            View
+                                        </Link>
+                                        <DeletePetModal pet={pet} onDeleted={handleDelete} />
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
             )}
-
-           
         </div>
     );
 };

@@ -2,13 +2,13 @@
 
 import { authClient } from '@/lib/auth-client';
 import { Button, Card, FieldError, Form, Input, Label, TextField } from '@heroui/react';
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation'; 
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
 
-const Login = () => {
+const LoginForm = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const redirectPath = searchParams.get('redirectTo') || '/';
@@ -35,14 +35,10 @@ const Login = () => {
             console.log("Login successful!", data);
             const {data:tokenData} = await authClient.token();
             if(tokenData?.token){
-          
-
                 toast.success("Welcome back!");
-            router.push(redirectPath); 
-            router.refresh();
-
+                router.push(redirectPath); 
+                router.refresh();
             }
-             
         }
     };
 
@@ -51,7 +47,6 @@ const Login = () => {
             provider:"google",
             callbackURL:redirectPath,
         });
-        
 
         if(error){
             toast.error(error.message);
@@ -108,13 +103,12 @@ const Login = () => {
                           LogIn
                         </Button>
                     </div>
-<div className='flex items-center gap-2'>
-<hr  className='flex-grow h-px border-zinc-200 dark:bg-zinc-700'/>
-<span className='text-xs text-zinc-400 '>OR</span>
-<hr  className='flex-grow h-px border-zinc-200 dark:bg-zinc-700'/>
-</div>
-<Button onPress={handleGoogleLogIn} className={'w-full flex items-center justify-center gap-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-100 font-semibold rounded-xl py-2.5 shadow-sm transition-all active:scale-95 hover:bg-zinc-50 dark:hover:bg-zinc-700'}><FcGoogle/> Login with Google</Button>
-
+                    <div className='flex items-center gap-2'>
+                        <hr className='flex-grow h-px border-zinc-200 dark:bg-zinc-700'/>
+                        <span className='text-xs text-zinc-400 '>OR</span>
+                        <hr className='flex-grow h-px border-zinc-200 dark:bg-zinc-700'/>
+                    </div>
+                    <Button onPress={handleGoogleLogIn} className={'w-full flex items-center justify-center gap-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-100 font-semibold rounded-xl py-2.5 shadow-sm transition-all active:scale-95 hover:bg-zinc-50 dark:hover:bg-zinc-700'}><FcGoogle/> Login with Google</Button>
 
                     <p className='text-center text-sm text-zinc-500 mt-1'>
                         Do not have an account?{' '}
@@ -125,6 +119,18 @@ const Login = () => {
                 </Form>
             </Card>
         </div>
+    );
+};
+
+const Login = () => {
+    return (
+        <Suspense fallback={
+            <div className='min-h-[80vh] flex items-center justify-center'>
+                <p className='text-zinc-400'>Loading...</p>
+            </div>
+        }>
+            <LoginForm />
+        </Suspense>
     );
 };
 

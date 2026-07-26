@@ -40,6 +40,7 @@ const SignUp = () => {
 
         if (data) {
             // console.log("Sign up successful!", data);
+                await authClient.signOut();
             toast.success("Account created successfully! Please log in.");
             router.push('/login');
         }

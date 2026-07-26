@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#  Pawsome Adoption — Pet Adoption Platform
 
-## Getting Started
+## Purpose
 
-First, run the development server:
+The goal of this project is to make pet adoption simple, transparent, and accessible by connecting people looking to adopt with pet owners and shelters, replacing informal/offline adoption processes with a secure, organized, and user-friendly online platform where users can browse pets, request adoption, and manage their requests.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Live URL
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[Add your live site link here]
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-  **Advanced Pet Browsing** — Search pets by name and filter by species using MongoDB `$regex` and `$in` operators, right from the All Pets page.
+-  **Secure Authentication** — Email/password login & registration with strong password validation, plus Google login, backed by JWT stored in HTTPOnly cookies and verified via middleware to protect private routes.
+-  **Full Pet Management (CRUD)** — Pet owners can add, update, and delete their own pet listings, each with detailed profiles (breed, age, health & vaccination status, location, adoption fee, etc.).
+-  **Adoption Request System** — Users can submit adoption requests with pickup date and message; owners can approve or reject requests, and once a request is approved the pet is automatically marked as adopted and locked from further requests.
+-  **Personal Dashboard** — Dedicated dashboard views for "My Listings" (with live stats), "My Requests", and "Add Pet", so both adopters and owners can manage everything in one place.
+-  **Clean, Responsive UI** — Fully responsive design across mobile, tablet, and desktop, styled with Tailwind CSS and HeroUI components, with toast-based notifications instead of default browser alerts.
+-  **Dark / Light Theme Toggle** — Users can switch between dark and light modes across the entire site.
+-  **Smooth Animations** — Framer Motion powers subtle, polished transitions and micro-interactions throughout the app.
 
-## Learn More
+## NPM Packages Used
 
-To learn more about Next.js, take a look at the following resources:
+### Client
+- `next` — React framework for routing, SSR/CSR
+- `react` / `react-dom`
+- `react-toastify` — toast/UI-based notifications
+- `@heroui/react` (HeroUI) — UI component library
+- `tailwindcss` — utility-first styling
+- `@gravity-ui/icons` / `gravity-ui` — icon set
+- `framer-motion` — animations
+- `axios` — API requests
+- `firebase` — authentication (email/password & Google login)
+- `react-hook-form` — form handling & validation
+- `js-cookie` — cookie handling on the client
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Server
+- `express` — server framework
+- `mongodb` — database driver
+- `jsonwebtoken` — JWT generation & verification
+- `cookie-parser` — parsing HTTPOnly cookies
+- `cors` — cross-origin resource sharing
+- `dotenv` — environment variable management

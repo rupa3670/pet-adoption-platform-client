@@ -20,12 +20,14 @@ const Navbar = () => {
     
     const dropdownRef = useRef(null);
     const mobileMenuRef = useRef(null);
+    const mobileButtonRef = useRef(null);
  
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
                 setIsOpen(false);
             }
+             const clickedOnToggleButton = mobileButtonRef.current && mobileButtonRef.current.contains(e.target);
             if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target)) {
                 setIsMobileMenuOpen(false);
             }
@@ -54,12 +56,13 @@ const Navbar = () => {
             <div className='flex justify-between items-center p-4 px-6 md:px-12 '>
                 
                 <div className='flex items-center gap-4'>
-                    <Button 
+                    <button 
+                    ref={mobileButtonRef}
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         className="md:hidden p-1 min-w-0 h-auto bg-transparent text-zinc-600 dark:text-zinc-300 focus:outline-none"
                     >
                         {isMobileMenuOpen ? <Xmark width={24} height={24}/> : <Bars width={24} height={24}/>} 
-                    </Button>
+                    </button>
 
                     <Link href={'/'} className='flex items-center gap-2'>
                         <Image src={'/assets/logo.jpg'} height={35} width={35} alt='Logo' className='rounded-full' />
@@ -140,7 +143,7 @@ const Navbar = () => {
                     className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 shadow-lg py-4 px-6 z-40"
                 >
                     <ul className="flex flex-col gap-4 text-sm font-semibold text-zinc-600 dark:text-zinc-300">
-                        <li><ThemeToggle/></li>
+                        {/* <li><ThemeToggle/></li> */}
                         <li>
                             <NavLink href={'/'} onClick={() => setIsMobileMenuOpen(false)} className='block hover:text-rose-500 py-1'>
                                 Home
